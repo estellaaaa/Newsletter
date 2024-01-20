@@ -1,19 +1,33 @@
+##################################################
+## For more Details --> README
+##################################################
+## Author: "Estella Kinzel"
+## Version: "0.1.1"
+## Status: "dev"
+##################################################
+
+# for mail-sending
 import csv
 import smtplib
 import os
 import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+
+# for the GUI
 import tkinter as tk
 from tkinter import filedialog
+
+# TODO no automation --> windows task scheduler, bath file etc. --> work if computer turned off? --> server?
 
 class NewsletterWithGUI:
     def __init__(self, master):
         self.master = master
         self.master.title("Newsletter")
-        self.master.geometry("600x400")
+        self.master.geometry("600x400") # size window
         self.master.configure(bg="#2E2E2E")
 
+        #calling the forms and buttons
         self.create_subject_form()
         self.create_html_form()
         self.create_text_form()
@@ -21,9 +35,10 @@ class NewsletterWithGUI:
         self.create_user_form()
         self.create_submit_button()
 
+    # method for each form/button for more structure (personal)
     def create_subject_form(self):
         self.subject_label = tk.Label(self.master, text="Subject:", bg="#2E2E2E", fg="white")
-        self.subject_label.pack()
+        self.subject_label.pack() #position
         self.subject_entry = tk.Entry(self.master, width=70, bg="#2E2E2E", fg="white")
         self.subject_entry.pack()
 
@@ -83,9 +98,11 @@ class NewsletterWithGUI:
         msg['To'] = subs['email']
         msg['Subject'] = subject
 
+        # checking if HTML file
         msg.attach(MIMEText(content, 'html' if content.startswith('<') else 'plain'))
 
-        with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=ssl.create_default_context()) as server:
+        # ssl secured with smtplib.SMTP_SSL
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=ssl.create_default_context()) as server: # port, context, smtp
             server.login(mail_user, password_user)
             server.sendmail(mail_user, subs['email'], msg.as_string())
 
@@ -93,6 +110,7 @@ class NewsletterWithGUI:
         content_html_path = self.html_entry.get()
         content_text = self.text_entry.get("1.0", tk.END).strip()
 
+        # either HTML file or plain text --> otherwise invalid
         if content_html_path and os.path.isfile(content_html_path):
             with open(content_html_path, 'r') as html_file:
                 content = html_file.read()
@@ -106,9 +124,10 @@ class NewsletterWithGUI:
         subs_path = self.sub_entry.get()
         subs = self.csv_read_subs(subs_path)
 
+        # sending mail
         for subscriber in subs:
             self.config_send_newsletter(subscriber, content, subject)
-            print(f"Mail was sent to {subscriber['email']}")
+            print(f"Mail was sent to {subscriber['email']}") # terminal messages
 
     def submit(self):
         self.send_newsletters()
@@ -116,11 +135,11 @@ class NewsletterWithGUI:
     def csv_read_subs(self, csv_file):
         sub_list = []
         with open(csv_file, 'r') as file:
-            reader = csv.reader(file)
+            reader = csv.reader(file) # read CSV files with csv.reader()
             next(reader)
             for row in reader:
                 sub_mail = row[0]
-                sub_list.append({'email': sub_mail})
+                sub_list.append({'email': sub_mail}) # adding to list
         return sub_list
 
 if __name__ == "__main__":
