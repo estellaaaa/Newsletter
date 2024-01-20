@@ -108,7 +108,7 @@ class NewsletterWithGUI:
 
         for subscriber in subs:
             self.config_send_newsletter(subscriber, content, subject)
-            print(f"Mail sent to {subscriber['email']}")
+            print(f"Mail was sent to {subscriber['email']}")
 
     def submit(self):
         self.send_newsletters()
