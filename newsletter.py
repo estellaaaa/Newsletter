@@ -32,7 +32,7 @@ class NewsletterWithGUI:
         self.html_label.pack()
         self.html_entry = tk.Entry(self.master, width=70, bg="#2E2E2E", fg="white")
         self.html_entry.pack()
-        self.html_button_select = tk.Button(self.master, text="Browse", command=self.select_html, bg="#2E2E2E", fg="white")
+        self.html_button_select = tk.Button(self.master, text="Select", command=self.select_html, bg="#2E2E2E", fg="white")
         self.html_button_select.pack()
 
     def create_text_form(self):
@@ -46,7 +46,7 @@ class NewsletterWithGUI:
         self.sub_label.pack()
         self.sub_entry = tk.Entry(self.master, width=70, bg="#2E2E2E", fg="white")
         self.sub_entry.pack()
-        self.sub_button_select = tk.Button(self.master, text="Browse", command=self.select_subs, bg="#2E2E2E", fg="white")
+        self.sub_button_select = tk.Button(self.master, text="Select", command=self.select_subs, bg="#2E2E2E", fg="white")
         self.sub_button_select.pack()
 
     def create_user_form(self):
